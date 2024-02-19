@@ -1,3 +1,3 @@
 export default {
-    base: "/lecture04",
+  base: "/lecture04",
 };

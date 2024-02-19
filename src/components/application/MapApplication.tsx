@@ -3,6 +3,7 @@ import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import { OSM } from "ol/source";
 import { useGeographic } from "ol/proj";
+import KommunerCheckbox from "../kommuner/KommunerCheckbox";
 
 useGeographic();
 const map = new Map({
@@ -20,7 +21,9 @@ const MapApplication = () => {
       <header>
         <h1>Lecture 4 Map</h1>
       </header>
-      <nav></nav>
+      <nav>
+        <KommunerCheckbox />
+      </nav>
       <div ref={mapRef}></div>
     </>
   );

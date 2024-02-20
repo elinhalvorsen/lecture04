@@ -7,7 +7,7 @@ import { GeoJSON } from "ol/format";
 const kommuneLayer = new VectorLayer({
   className: "kommuner",
   source: new VectorSource({
-    url: "/kommuner.json",
+    url: "/lecture04/kommuner.json",
     format: new GeoJSON(),
   }),
 });

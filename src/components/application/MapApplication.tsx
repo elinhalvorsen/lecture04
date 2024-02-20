@@ -7,24 +7,13 @@ import Layer from "ol/layer/Layer";
 import KommunerAside from "../kommuner/KommunerAside";
 import FylkeCheckbox from "../../fylke/FylkeCheckbox";
 import FylkeAside from "../../fylke/FylkeAside";
+import HandleFocusUser from "./HandleFocusUser";
 
 const MapApplication = () => {
   const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
   const [layers, setLayers] = useState<Layer[]>([
     new TileLayer({ source: new OSM() }),
   ]);
-
-  //Denne gjør slik at den fokuserer på der jeg befinner meg nå
-  const handleFocusUser = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const { latitude, longitude } = pos.coords;
-      map.getView().animate({
-        center: [longitude, latitude],
-        zoom: 8,
-      });
-    });
-  };
 
   useEffect(() => map.setLayers(layers), [layers]);
   useEffect(() => map.setTarget(mapRef.current), []);
@@ -34,7 +23,7 @@ const MapApplication = () => {
         <h1>Lecture 4 Map</h1>
       </header>
       <nav>
-        <a href={"#"} onClick={handleFocusUser}>
+        <a href={"#"} onClick={HandleFocusUser}>
           Focus on me
         </a>
         <KommunerCheckbox />

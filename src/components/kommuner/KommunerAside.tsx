@@ -4,7 +4,6 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import { Feature } from "ol";
 type KommuneVectorLayer = VectorLayer<VectorSource<KommuneFeatures>>;
-
 interface KommuneProperties {
   kommunenummer: string;
   navn: Stedsnavn[];

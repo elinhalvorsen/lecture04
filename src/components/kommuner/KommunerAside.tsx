@@ -6,9 +6,9 @@ const KommunerAside = () => {
   const kommunerLayer = layers.find((l) => l.getClassName() === "kommuner");
   return (
     <>
-      <aside>
+      <aside className={kommunerLayer ? "visable " : "hidden "}>
         <div>
-          <h2>Kommuner {kommunerLayer ? "visable " : "hidden "}</h2>
+          <h2>Kommuner</h2>
         </div>
       </aside>
     </>

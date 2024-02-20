@@ -17,6 +17,16 @@ main {
 }
 
 main aside {
+  display: grid;
+  grid-template-columns: 0;
+  transition: grid-template-columns 0.5 ease-in-out;
+  overflow-x: clip;
+}
+main aside.visable {
+  grid-template-columns: auto;
+}
+
+main aside > * {
   padding: 0.5rem;
   min-width: 25ch;
 }

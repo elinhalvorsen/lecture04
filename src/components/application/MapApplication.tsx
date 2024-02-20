@@ -36,7 +36,7 @@ const MapApplication = () => {
     map.setTarget(mapRef.current);
   }, []);
   return (
-    <MapContext.Provider value={{ setLayers }}>
+    <MapContext.Provider value={{ setLayers, layers }}>
       <header>
         <h1>Lecture 4 Map</h1>
       </header>

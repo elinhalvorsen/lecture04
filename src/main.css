@@ -4,7 +4,6 @@
 #root {
   display: grid;
   grid-template-rows: auto auto 1fr;
-  border: 1px solid black;
   height: 100dvh;
 }
 nav {
@@ -21,6 +20,8 @@ main aside {
   grid-template-columns: 0;
   transition: grid-template-columns 0.5 ease-in-out;
   overflow-x: clip;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 main aside.visable {
   grid-template-columns: auto;

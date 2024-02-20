@@ -3,7 +3,9 @@ const KommunerAside = () => {
   return (
     <>
       <aside>
-        <h2>Kommuner</h2>
+        <div>
+          <h2>Kommuner</h2>
+        </div>
       </aside>
     </>
   );

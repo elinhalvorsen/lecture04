@@ -6,6 +6,7 @@ import { useGeographic } from "ol/proj";
 import { MapContext } from "../context/MapContext";
 import KommunerCheckbox from "../kommuner/KommunerCheckbox";
 import Layer from "ol/layer/Layer";
+import KommunerAside from "../kommuner/KommunerAside";
 
 useGeographic();
 const map = new Map({
@@ -45,7 +46,10 @@ const MapApplication = () => {
         </a>
         <KommunerCheckbox />
       </nav>
-      <div ref={mapRef}></div>
+      <main>
+        <div ref={mapRef}></div>
+        <KommunerAside />
+      </main>
     </MapContext.Provider>
   );
 };

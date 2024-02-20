@@ -24,22 +24,18 @@ const useKommuneFeatures = () => {
   const { layers } = useContext(MapContext);
 
   const kommunerLayer = layers.find(
-    (l) => l.getClassName() === "kommuner",
+    (l) => l.getClassName() === "kommuner"
   ) as KommuneVectorLayer;
-
-  const [feature, setFeature] = useState<KommuneFeatures[]>();
-  const features = kommunerLayer?.getSource()?.getFeatures();
+  const [features, setFeature] = useState<KommuneFeatures[]>();
 
   const handleSourceChange = () => {
-    setFeature(kommunerLayer?.getSource()?.getFeatures);
+    setFeature(kommunerLayer?.getSource()?.getFeatures());
   };
 
   useEffect(() => {
     kommunerLayer?.getSource()?.on("change", handleSourceChange);
-    return () => {
-      kommunerLayer?.getSource()?.un("change", handleSourceChange);
-    };
-  });
+    return () => kommunerLayer?.getSource()?.un("change", handleSourceChange);
+  }, [kommunerLayer]);
   return { kommunerLayer, features };
 };
 

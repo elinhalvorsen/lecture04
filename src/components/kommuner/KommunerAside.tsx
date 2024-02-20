@@ -56,7 +56,6 @@ const useKommuneFeatures = () => {
 
 const KommunerAside = () => {
   const { visableFeatures } = useKommuneFeatures();
-
   return (
     <>
       <aside className={visableFeatures?.length ? "visable " : "hidden "}>

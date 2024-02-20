@@ -19,9 +19,7 @@ const FylkeCheckbox = () => {
     if (checked) {
       setLayers((old) => [...old, layer]);
     }
-    return () => {
-      setLayers((old) => old.filter((l) => l !== layer));
-    };
+    return () => setLayers((old) => old.filter((l) => l !== layer));
   }, [checked]);
   return (
     <>

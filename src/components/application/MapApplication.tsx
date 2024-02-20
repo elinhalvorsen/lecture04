@@ -9,6 +9,11 @@ import FylkeCheckbox from "../../fylke/FylkeCheckbox";
 import FylkeAside from "../../fylke/FylkeAside";
 
 const MapApplication = () => {
+  const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
+  const [layers, setLayers] = useState<Layer[]>([
+    new TileLayer({ source: new OSM() }),
+  ]);
+
   //Denne gjør slik at den fokuserer på der jeg befinner meg nå
   const handleFocusUser = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -21,12 +26,7 @@ const MapApplication = () => {
     });
   };
 
-  const [layers, setLayers] = useState<Layer[]>([
-    new TileLayer({ source: new OSM() }),
-  ]);
-  const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
   useEffect(() => map.setLayers(layers), [layers]);
-
   useEffect(() => map.setTarget(mapRef.current), []);
   return (
     <MapContext.Provider value={{ map, setLayers, layers }}>

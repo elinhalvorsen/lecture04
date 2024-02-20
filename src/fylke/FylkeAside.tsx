@@ -4,6 +4,9 @@ import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import { Feature } from "ol";
 type FylkeVectorLayer = VectorLayer<VectorSource<FylkeFeatures>>;
+type FylkeFeatures = {
+  getProperties(): FylkeProperties;
+} & Feature;
 
 interface FylkeProperties {
   fylkenummer: string;
@@ -14,23 +17,21 @@ interface Stedsnavn {
   navn: string;
 }
 
-type FylkeFeatures = {
-  getProperties(): FylkeProperties;
-} & Feature;
 const StedsNavn = (navn: Stedsnavn[]) => {
   return navn.find((n) => n.sprak === "nor")?.navn;
 };
+
 const useFylkeFeatures = () => {
   const { layers, map } = useContext(MapContext);
-
-  const layer = layers.find(
-    (l) => l.getClassName() === "fylker",
-  ) as FylkeVectorLayer;
 
   const [features, setFeature] = useState<FylkeFeatures[]>();
   const [viewExtent, setViewExtent] = useState(
     map.getView().getViewStateAndExtent().extent,
   );
+
+  const layer = layers.find(
+    (l) => l.getClassName() === "fylker",
+  ) as FylkeVectorLayer;
 
   const visableFeatures = useMemo(
     () =>
@@ -56,7 +57,6 @@ const useFylkeFeatures = () => {
 
 const FylkeAside = () => {
   const { visableFeatures } = useFylkeFeatures();
-
   return (
     <>
       <aside className={visableFeatures?.length ? "visable " : "hidden "}>

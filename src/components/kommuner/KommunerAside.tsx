@@ -24,7 +24,7 @@ const useKommuneFeatures = () => {
   const { layers } = useContext(MapContext);
 
   const kommunerLayer = layers.find(
-    (l) => l.getClassName() === "kommuner"
+    (l) => l.getClassName() === "kommuner",
   ) as KommuneVectorLayer;
   const [features, setFeature] = useState<KommuneFeatures[]>();
 

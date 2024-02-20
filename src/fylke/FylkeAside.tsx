@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { MapContext } from "../context/MapContext";
+import { MapContext } from "../components/context/MapContext";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import { Feature } from "ol";
-type KommuneVectorLayer = VectorLayer<VectorSource<KommuneFeatures>>;
+type FylkeVectorLayer = VectorLayer<VectorSource<FylkeFeatures>>;
 
-interface KommuneProperties {
-  kommunenummer: string;
+interface FylkeProperties {
+  fylkenummer: string;
   navn: Stedsnavn[];
 }
 interface Stedsnavn {
@@ -14,20 +14,20 @@ interface Stedsnavn {
   navn: string;
 }
 
-type KommuneFeatures = {
-  getProperties(): KommuneProperties;
+type FylkeFeatures = {
+  getProperties(): FylkeProperties;
 } & Feature;
 const StedsNavn = (navn: Stedsnavn[]) => {
   return navn.find((n) => n.sprak === "nor")?.navn;
 };
-const useKommuneFeatures = () => {
+const useFylkeFeatures = () => {
   const { layers, map } = useContext(MapContext);
 
   const layer = layers.find(
-    (l) => l.getClassName() === "kommuner",
-  ) as KommuneVectorLayer;
+    (l) => l.getClassName() === "fylke",
+  ) as FylkeVectorLayer;
 
-  const [features, setFeature] = useState<KommuneFeatures[]>();
+  const [features, setFeature] = useState<FylkeFeatures[]>();
   const [viewExtent, setViewExtent] = useState(
     map.getView().getViewStateAndExtent().extent,
   );
@@ -54,14 +54,14 @@ const useKommuneFeatures = () => {
   return { layer, features, visableFeatures };
 };
 
-const KommunerAside = () => {
-  const { visableFeatures } = useKommuneFeatures();
+const FylkeAside = () => {
+  const { visableFeatures } = useFylkeFeatures();
 
   return (
     <>
       <aside className={visableFeatures?.length ? "visable " : "hidden "}>
         <div>
-          <h2>Kommuner</h2>
+          <h2>Fylker</h2>
           <ul>
             {visableFeatures?.map((k) => (
               <li>{StedsNavn(k.getProperties().navn)}</li>
@@ -72,4 +72,4 @@ const KommunerAside = () => {
     </>
   );
 };
-export default KommunerAside;
+export default FylkeAside;

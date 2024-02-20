@@ -5,6 +5,8 @@ import { MapContext, map } from "../context/MapContext";
 import KommunerCheckbox from "../kommuner/KommunerCheckbox";
 import Layer from "ol/layer/Layer";
 import KommunerAside from "../kommuner/KommunerAside";
+import FylkeCheckbox from "../../fylke/FylkeCheckbox";
+import FylkeAside from "../../fylke/FylkeAside";
 
 const MapApplication = () => {
   //Denne gjør slik at den fokuserer på der jeg befinner meg nå
@@ -22,12 +24,10 @@ const MapApplication = () => {
   const [layers, setLayers] = useState<Layer[]>([
     new TileLayer({ source: new OSM() }),
   ]);
+  const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
   useEffect(() => map.setLayers(layers), [layers]);
 
-  const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
-  useEffect(() => {
-    map.setTarget(mapRef.current);
-  }, []);
+  useEffect(() => map.setTarget(mapRef.current), []);
   return (
     <MapContext.Provider value={{ map, setLayers, layers }}>
       <header>
@@ -38,10 +38,12 @@ const MapApplication = () => {
           Focus on me
         </a>
         <KommunerCheckbox />
+        <FylkeCheckbox />
       </nav>
       <main>
         <div ref={mapRef}></div>
         <KommunerAside />
+        <FylkeAside />
       </main>
     </MapContext.Provider>
   );

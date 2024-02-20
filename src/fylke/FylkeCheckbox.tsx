@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MapContext } from "../context/MapContext";
+import { MapContext } from "../components/context/MapContext";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { GeoJSON } from "ol/format";
 
 const layer = new VectorLayer({
-  className: "kommuner",
+  className: "fylker",
   source: new VectorSource({
-    url: "/lecture04/kommuner.json",
+    url: "/lecture04/fylker.json",
     format: new GeoJSON(),
   }),
 });
-const KommunerCheckbox = () => {
+const FylkeCheckbox = () => {
   const [checked, setChecked] = useState(false);
   const { setLayers } = useContext(MapContext);
 
@@ -32,9 +32,9 @@ const KommunerCheckbox = () => {
           onChange={(e) => setChecked(e.target.checked)}
         />
         {checked ? "Hide " : "Show "}
-        kommuner
+        fylker
       </label>
     </>
   );
 };
-export default KommunerCheckbox;
+export default FylkeCheckbox;

@@ -1,17 +1,10 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import { OSM } from "ol/source";
-import { useGeographic } from "ol/proj";
-import { MapContext } from "../context/MapContext";
+import { MapContext, map } from "../context/MapContext";
 import KommunerCheckbox from "../kommuner/KommunerCheckbox";
 import Layer from "ol/layer/Layer";
 import KommunerAside from "../kommuner/KommunerAside";
-
-useGeographic();
-const map = new Map({
-  view: new View({ center: [10, 59], zoom: 8 }),
-});
 
 const MapApplication = () => {
   //Denne gjør slik at den fokuserer på der jeg befinner meg nå
@@ -36,7 +29,7 @@ const MapApplication = () => {
     map.setTarget(mapRef.current);
   }, []);
   return (
-    <MapContext.Provider value={{ setLayers, layers }}>
+    <MapContext.Provider value={{ map, setLayers, layers }}>
       <header>
         <h1>Lecture 4 Map</h1>
       </header>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { MapContext } from "../context/MapContext";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
@@ -21,34 +21,54 @@ const StedsNavn = (navn: Stedsnavn[]) => {
   return navn.find((n) => n.sprak === "nor")?.navn;
 };
 const useKommuneFeatures = () => {
-  const { layers } = useContext(MapContext);
+  const { layers, map } = useContext(MapContext);
 
   const kommunerLayer = layers.find(
     (l) => l.getClassName() === "kommuner",
   ) as KommuneVectorLayer;
-  const [features, setFeature] = useState<KommuneFeatures[]>();
 
+  const [features, setFeature] = useState<KommuneFeatures[]>();
+  const [viewExtent, setViewExtent] = useState(
+    map.getView().getViewStateAndExtent().extent,
+  );
+
+  const visableFeatures = useMemo(
+    () =>
+      features?.filter((f) => f.getGeometry()?.intersectsExtent(viewExtent)),
+    [features, viewExtent],
+  );
   const handleSourceChange = () => {
     setFeature(kommunerLayer?.getSource()?.getFeatures());
+  };
+
+  const handleViewChange = () => {
+    setViewExtent(map.getView().getViewStateAndExtent().extent);
   };
 
   useEffect(() => {
     kommunerLayer?.getSource()?.on("change", handleSourceChange);
     return () => kommunerLayer?.getSource()?.un("change", handleSourceChange);
   }, [kommunerLayer]);
-  return { kommunerLayer, features };
+
+  useEffect(() => {
+    map.getView().on("change", handleViewChange);
+    return () => map.getView().un("change", handleViewChange);
+  }, [map]);
+  return { kommunerLayer, features, visableFeatures };
 };
 
 const KommunerAside = () => {
-  const { features } = useKommuneFeatures();
+  const { visableFeatures } = useKommuneFeatures();
 
   return (
     <>
-      <aside className={features?.length ? "visable " : "hidden "}>
+      <aside className={visableFeatures?.length ? "visable " : "hidden "}>
         <div>
           <h2>Kommuner</h2>
           <ul>
-            {features?.map((k) => <li>{StedsNavn(k.getProperties().navn)}</li>)}
+            {visableFeatures?.map((k) => (
+              <li>{StedsNavn(k.getProperties().navn)}</li>
+            ))}
           </ul>
         </div>
       </aside>

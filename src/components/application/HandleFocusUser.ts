@@ -1,4 +1,3 @@
-import React from "react";
 import { map } from "../context/MapContext";
 const HandleFocusUser = (e: React.MouseEvent) => {
   e.preventDefault();
